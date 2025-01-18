@@ -1,0 +1,18 @@
+{
+  "name": "regl-scatter-demo",
+  "version": "1.0.0",
+  "description": "Demo of regl-scatterplot with random points",
+  "source": "index.html",
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build"
+  },
+  "dependencies": {
+    "regl": "^2.1.0",
+    "regl-scatterplot": "^1.8.4"
+  },
+  "devDependencies": {
+    "parcel": "^2.13.3",
+    "process": "^0.11.10"
+  }
+}
