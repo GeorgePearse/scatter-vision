@@ -5,14 +5,14 @@ function App() {
   const [isDarkMode, setIsDarkMode] = React.useState(true);
 
   React.useEffect(() => {
-    // Create random points
-    const numPoints = 10000;
-    const points = Array(numPoints)
-      .fill()
-      .map(() => [
-        Math.random() * 2 - 1, // x between -1 and 1
-        Math.random() * 2 - 1  // y between -1 and 1
-      ]);
+    // Fetch points from API
+    const fetchPoints = async () => {
+      const response = await fetch('/api/points');
+      const data = await response.json();
+      return data.points;
+    };
+
+    fetchPoints().then(points => {
 
     // Initialize the scatterplot
     const scatterplot = createScatterplot({
