@@ -26,8 +26,10 @@ app.add_middleware(
 @app.get("/api/points")
 async def get_points():
     logger.info("Endpoint /api/points was hit!")
-    # Generate 10000 random points with a new seed based on current time
+    # Generate 10000 random points with a new seed based on current time and microseconds
     num_points = 10000
-    np.random.seed(int(datetime.now().timestamp()))
+    current_time = datetime.now()
+    seed = int(current_time.timestamp() * 1000000) + current_time.microsecond
+    np.random.seed(seed)
     points = np.random.uniform(-1, 1, (num_points, 2)).tolist()
     return {"points": points}
