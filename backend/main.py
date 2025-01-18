@@ -17,11 +17,16 @@ app = FastAPI()
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["*"],  # WARNING: Don't use this in production without proper configuration
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/")
+async def root():
+    """Root endpoint for basic health check"""
+    return {"status": "ok", "message": "API is running"}
 
 # Generate some random points for visualization
 num_points = 10000
