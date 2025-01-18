@@ -13,34 +13,34 @@ function App() {
     };
 
     fetchPoints().then(points => {
-
-    // Initialize the scatterplot
-    const scatterplot = createScatterplot({
-      canvas: document.querySelector('#plot-canvas'),
-      width: window.innerWidth,
-      height: window.innerHeight,
-      backgroundColor: isDarkMode ? [0.1, 0.1, 0.1, 1] : [1, 1, 1, 1],
-      pointColor: isDarkMode ? [1, 1, 1, 0.6] : [0, 0, 0, 0.6],
-    });
-
-    // Set the points
-    scatterplot.draw(points);
-
-    // Handle window resize
-    const handleResize = () => {
-      scatterplot.resize({
+      // Initialize the scatterplot
+      const scatterplot = createScatterplot({
+        canvas: document.querySelector('#plot-canvas'),
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight,
+        backgroundColor: isDarkMode ? [0.1, 0.1, 0.1, 1] : [1, 1, 1, 1],
+        pointColor: isDarkMode ? [1, 1, 1, 0.6] : [0, 0, 0, 0.6],
       });
-    };
 
-    window.addEventListener('resize', handleResize);
+      // Set the points
+      scatterplot.draw(points);
 
-    // Cleanup
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      scatterplot.destroy();
-    };
+      // Handle window resize
+      const handleResize = () => {
+        scatterplot.resize({
+          width: window.innerWidth,
+          height: window.innerHeight
+        });
+      };
+
+      window.addEventListener('resize', handleResize);
+
+      // Cleanup
+      return () => {
+        window.removeEventListener('resize', handleResize);
+        scatterplot.destroy();
+      };
+    });
   }, [isDarkMode]); // Re-run effect when theme changes
 
   return (
