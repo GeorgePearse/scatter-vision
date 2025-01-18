@@ -28,7 +28,7 @@ jobs:
           python-version: '3.11'
           
       - name: Install Python dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r backend/requirements.txt
       
       - name: Install Heroku CLI
         run: curl https://cli-assets.heroku.com/install.sh | sh
