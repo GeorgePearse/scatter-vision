@@ -46,8 +46,21 @@ function App() {
   return (
     <div style={{ 
       backgroundColor: isDarkMode ? '#1a1a1a' : '#ffffff',
-      minHeight: '100vh'
+      minHeight: '100vh',
+      position: 'relative'
     }}>
+      <h1 style={{
+        position: 'absolute',
+        top: '20px',
+        left: '20px',
+        margin: 0,
+        zIndex: 1000,
+        color: isDarkMode ? '#ffffff' : '#1a1a1a',
+        fontFamily: 'Arial, sans-serif',
+        fontSize: '24px'
+      }}>
+        Scatter Vision
+      </h1>
       <button
         onClick={() => setIsDarkMode(!isDarkMode)}
         style={{
