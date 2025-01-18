@@ -9,16 +9,35 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install frontend dependencies
+        run: npm install
+        
+      - name: Build frontend
+        run: npm run build
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
       
       - name: Login to Heroku Container Registry
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login
         
-      - name: Build and push
+      - name: Build and push containers
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
-          heroku container:push web -a ${{ secrets.HEROKU_APP_NAME }}
+          heroku container:push web --recursive -a ${{ secrets.HEROKU_APP_NAME }}
           heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
