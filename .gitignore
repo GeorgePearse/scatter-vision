@@ -1,5 +1,6 @@
 .aider*
 .env
+.heroku
 # Dependencies
 node_modules/
 /.pnp
