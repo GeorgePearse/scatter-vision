@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Kill any process running on port 8000
+lsof -ti:8000 | xargs kill -9 2>/dev/null || true
+
 # Start the backend FastAPI server in the background
 cd backend && uvicorn main:app --reload --port 8000 &
 
