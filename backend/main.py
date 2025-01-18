@@ -29,7 +29,7 @@ async def get_points():
     # Generate 10000 random points with a new seed based on current time and microseconds
     num_points = 10000
     current_time = datetime.now()
-    seed = int(current_time.timestamp() * 1000000) + current_time.microsecond
+    seed = (int(current_time.timestamp() * 1000) + current_time.microsecond) % (2**32 - 1)
     np.random.seed(seed)
     points = np.random.uniform(-1, 1, (num_points, 2)).tolist()
     return {"points": points}
