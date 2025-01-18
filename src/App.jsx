@@ -3,6 +3,18 @@ import createScatterplot from 'regl-scatterplot';
 
 function App() {
   const [isDarkMode, setIsDarkMode] = React.useState(true);
+  const [refreshTrigger, setRefreshTrigger] = React.useState(0);
+  const scatterplotRef = React.useRef(null);
+
+  const initializeScatterplot = (points) => {
+    if (scatterplotRef.current) {
+      scatterplotRef.current.destroy();
+    }
+
+    // Initialize the scatterplot
+    const scatterplot = createScatterplot({
+    scatterplotRef.current = scatterplot;
+  };
 
   React.useEffect(() => {
     // Fetch points from API
@@ -13,8 +25,7 @@ function App() {
     };
 
     fetchPoints().then(points => {
-      // Initialize the scatterplot
-      const scatterplot = createScatterplot({
+      initializeScatterplot(points);
         canvas: document.querySelector('#plot-canvas'),
         width: window.innerWidth,
         height: window.innerHeight,
@@ -41,7 +52,7 @@ function App() {
         scatterplot.destroy();
       };
     });
-  }, [isDarkMode]); // Re-run effect when theme changes
+  }, [isDarkMode, refreshTrigger]); // Re-run effect when theme changes or refresh is clicked
 
   return (
     <div style={{ 
@@ -79,6 +90,25 @@ function App() {
         }}
       >
         {isDarkMode ? '☀️ Light' : '🌙 Dark'}
+      </button>
+      <button
+        onClick={() => setRefreshTrigger(prev => prev + 1)}
+        style={{
+          position: 'absolute',
+          top: '20px',
+          right: '120px',
+          zIndex: 1000,
+          padding: '8px 16px',
+          borderRadius: '4px',
+          border: 'none',
+          backgroundColor: isDarkMode ? '#ffffff' : '#1a1a1a',
+          color: isDarkMode ? '#1a1a1a' : '#ffffff',
+          cursor: 'pointer',
+          fontWeight: 'bold',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+        }}
+      >
+        🔄 Refresh
       </button>
       <canvas 
         id="plot-canvas" 
