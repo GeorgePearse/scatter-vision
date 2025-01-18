@@ -9,6 +9,10 @@ This tool is designed to facilitate rapid dataset annotation and cleaning by com
 - Jina AI for generating object embeddings
 - regl-powered WebGL visualization for interactive data cleaning
 
+## Deployment
+
+The application is hosted on Heroku at: https://git.heroku.com/scatter-vision.git
+
 ## Installation
 
 ```bash
