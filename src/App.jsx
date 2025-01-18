@@ -13,7 +13,33 @@ function App() {
 
     // Initialize the scatterplot
     const scatterplot = createScatterplot({
+      canvas: document.querySelector('#plot-canvas'),
+      width: window.innerWidth,
+      height: window.innerHeight,
+      backgroundColor: isDarkMode ? [0.1, 0.1, 0.1, 1] : [1, 1, 1, 1],
+      pointColor: isDarkMode ? [1, 1, 1, 0.6] : [0, 0, 0, 0.6],
+    });
+
+    // Set the points
+    scatterplot.draw(points);
+
+    // Store reference
     scatterplotRef.current = scatterplot;
+
+    // Handle window resize
+    const handleResize = () => {
+      scatterplot.resize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      scatterplot.destroy();
+    };
   };
 
   React.useEffect(() => {
@@ -24,34 +50,14 @@ function App() {
       return data.points;
     };
 
+    let cleanup;
     fetchPoints().then(points => {
-      initializeScatterplot(points);
-        canvas: document.querySelector('#plot-canvas'),
-        width: window.innerWidth,
-        height: window.innerHeight,
-        backgroundColor: isDarkMode ? [0.1, 0.1, 0.1, 1] : [1, 1, 1, 1],
-        pointColor: isDarkMode ? [1, 1, 1, 0.6] : [0, 0, 0, 0.6],
-      });
-
-      // Set the points
-      scatterplot.draw(points);
-
-      // Handle window resize
-      const handleResize = () => {
-        scatterplot.resize({
-          width: window.innerWidth,
-          height: window.innerHeight
-        });
-      };
-
-      window.addEventListener('resize', handleResize);
-
-      // Cleanup
-      return () => {
-        window.removeEventListener('resize', handleResize);
-        scatterplot.destroy();
-      };
+      cleanup = initializeScatterplot(points);
     });
+
+    return () => {
+      if (cleanup) cleanup();
+    };
   }, [isDarkMode, refreshTrigger]); // Re-run effect when theme changes or refresh is clicked
 
   return (
